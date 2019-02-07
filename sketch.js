@@ -38,6 +38,7 @@ function Ship(dataRef) {
     if (pinf.ships !== undefined && pinf.ships[this.dataRef].last !== inf.ships[this.dataRef].last) {
       dist = 0;
     }
+    console.log((inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist) * window.innerWidth + " " + (inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist) * window.innerHeight);
     translate((inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist) * window.innerWidth, (inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist) * window.innerHeight);
     rotate(inf.ships[this.dataRef].rot);
     // Draws the image
