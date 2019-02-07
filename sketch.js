@@ -33,7 +33,7 @@ function Ship(dataRef) {
     // Get the distance since the user last turned
     var dist = (new Date().getTime() - inf.ships[this.dataRef].last) / 1000 * 0.5;
     // Set the distance to 0 if the user jsut turned
-    if (pinf.ships !== undefined && pinf.ships[this.dataRef].last === inf.ships[this.dataRef].last) {
+    if (pinf.ships !== undefined && pinf.ships[this.dataRef].last !== inf.ships[this.dataRef].last) {
       dist = 0;
     }
     translate((inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist) * window.innerWidth, (inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist) * window.innerHeight);
