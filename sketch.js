@@ -21,6 +21,7 @@ function keyPressed() {
 function keyReleased() {
   kp[keyCode] = false;
 }
+var lastHit = floor(new Date().getTime() / 500);
 
 // Ship object
 function Ship(dataRef) {
@@ -67,12 +68,14 @@ function Ship(dataRef) {
       ref.game.child("ships").child(this.dataRef).child("last").set(new Date().getTime());
     }
     // Turning
+    console.log(floor(new Date().getTime() / 500) + " " + lastHit);
     // Right
     if (kp[39]) {
       ref.game.child("ships").child(this.dataRef).child("x").set(inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist);
       ref.game.child("ships").child(this.dataRef).child("y").set(inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist);
       ref.game.child("ships").child(this.dataRef).child("rot").set(inf.ships[this.dataRef].rot + 0.1);
       ref.game.child("ships").child(this.dataRef).child("last").set(new Date().getTime());
+      lastHit = floor(new Date().getTime() / 500);
     }
     // Left
     if (kp[37]) {
@@ -80,6 +83,7 @@ function Ship(dataRef) {
       ref.game.child("ships").child(this.dataRef).child("y").set(inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist);
       ref.game.child("ships").child(this.dataRef).child("rot").set(inf.ships[this.dataRef].rot - 0.1);
       ref.game.child("ships").child(this.dataRef).child("last").set(new Date().getTime());
+      lastHit = floor(new Date().getTime() / 500);
     }
   }
 }
