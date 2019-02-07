@@ -17,7 +17,17 @@ function setup() {
     game: database.ref("game")
   };
 }
+var stars = [];
 
+for (var i = 0; i < 250; i++) {
+  stars.push({x: random(window.innerWidth),y: random(window.innerHeight)});
+}
 function draw() {
   background(50);
+  stroke(255)
+  for(var I = 0; I < stars.length; I++) {
+    point(stars[I].x,stars[I].y);
+  }
+
+
 }
