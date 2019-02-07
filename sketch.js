@@ -98,6 +98,7 @@ async function setup() {
 
   ref.game.on("value", function(data) {
     var d = data.val();
+    console.log("updated");
     // ship handling:
     inf = d;
   });
