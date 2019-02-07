@@ -70,21 +70,23 @@ function Ship(dataRef) {
     }
     // Turning
     console.log(floor(new Date().getTime() / ts) + " " + lastHit);
-    // Right
-    if (kp[39]) {
-      ref.game.child("ships").child(this.dataRef).child("x").set(inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist);
-      ref.game.child("ships").child(this.dataRef).child("y").set(inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist);
-      ref.game.child("ships").child(this.dataRef).child("rot").set(inf.ships[this.dataRef].rot + 0.1);
-      ref.game.child("ships").child(this.dataRef).child("last").set(new Date().getTime());
-      lastHit = floor(new Date().getTime() / ts);
-    }
-    // Left
-    if (kp[37]) {
-      ref.game.child("ships").child(this.dataRef).child("x").set(inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist);
-      ref.game.child("ships").child(this.dataRef).child("y").set(inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist);
-      ref.game.child("ships").child(this.dataRef).child("rot").set(inf.ships[this.dataRef].rot - 0.1);
-      ref.game.child("ships").child(this.dataRef).child("last").set(new Date().getTime());
-      lastHit = floor(new Date().getTime() / ts);
+    if (floor(new Date().getTime() / ts) !== lastHit) {
+      // Right
+      if (kp[39]) {
+        ref.game.child("ships").child(this.dataRef).child("x").set(inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist);
+        ref.game.child("ships").child(this.dataRef).child("y").set(inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist);
+        ref.game.child("ships").child(this.dataRef).child("rot").set(inf.ships[this.dataRef].rot + 0.1);
+        ref.game.child("ships").child(this.dataRef).child("last").set(new Date().getTime());
+        lastHit = floor(new Date().getTime() / ts);
+      }
+      // Left
+      if (kp[37]) {
+        ref.game.child("ships").child(this.dataRef).child("x").set(inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist);
+        ref.game.child("ships").child(this.dataRef).child("y").set(inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist);
+        ref.game.child("ships").child(this.dataRef).child("rot").set(inf.ships[this.dataRef].rot - 0.1);
+        ref.game.child("ships").child(this.dataRef).child("last").set(new Date().getTime());
+        lastHit = floor(new Date().getTime() / ts);
+      }
     }
   }
 }
