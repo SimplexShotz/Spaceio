@@ -61,12 +61,14 @@ function Ship(dataRef) {
       ref.game.child("ships").child(this.dataRef).child("last").set(new Date().getTime());
     }
     // Turning
+    // Right
     if (kp[39]) {
       ref.game.child("ships").child(this.dataRef).child("x").set(inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist);
       ref.game.child("ships").child(this.dataRef).child("y").set(inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist);
       ref.game.child("ships").child(this.dataRef).child("rot").set(inf.ships[this.dataRef].rot + 0.1);
       ref.game.child("ships").child(this.dataRef).child("last").set(new Date().getTime());
     }
+    // Left
     if (kp[37]) {
       ref.game.child("ships").child(this.dataRef).child("x").set(inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist);
       ref.game.child("ships").child(this.dataRef).child("y").set(inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist);
@@ -200,7 +202,7 @@ function draw() {
     }
   }
   // Update this user's ship
-  if (userNum !== -1) {
+  if (inf !== null && inf.ships[userNum] !== undefined && userNum !== -1) {
     ships[userNum].update();
   }
 }
