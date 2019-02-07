@@ -80,6 +80,7 @@ function Ship(dataRef) {
 
 async function setup() {
   createCanvas(window.innerWidth, window.innerHeight);
+  pixelDensity(1);
   // Firebase setup
   var config = {
     apiKey: "AIzaSyBRi2IbqvHVNNqYdZZ4G7kWIfwLydehd8I",
