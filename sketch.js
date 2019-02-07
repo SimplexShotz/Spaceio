@@ -1,11 +1,41 @@
 
+// TODO: Make things update in other tabs (on user join)
+// movement
+// firing
+
 var database, ref;
 
-var ship;
+var ship; // ship image
+var ships = []; // array of all ships
+var stars = []; // array of all stars
 
-var inf = {};
+var inf = {}; // game info
 
-function setup() {
+var kp = [];
+function keyPressed() {
+  kp[keyCode] = true;
+}
+function keyReleased() {
+  kp[keyCode] = false;
+}
+
+function Ship(dataRef) {
+  this.dataRef = dataRef.toString();
+  this.draw = function() {
+    push();
+    translate(inf.ships[this.dataRef].x, inf.ships[this.dataRef].y);
+    rotate(inf.ships[this.dataRef].rot);
+    image(ship, 0, 0, 17 * 5, 18 * 5);
+    pop();
+  }
+  this.update = function() {
+    if (kp[RIGHT]) {
+
+    }
+  }
+}
+
+async function setup() {
   createCanvas(window.innerWidth, window.innerHeight);
   var config = {
     apiKey: "AIzaSyBRi2IbqvHVNNqYdZZ4G7kWIfwLydehd8I",
@@ -21,14 +51,38 @@ function setup() {
     game: database.ref("game")
   };
 
-  ref.game.once("value", function(data) {
+  ref.game.on("value", function(data) {
     var d = data.val();
+    // ship handling:
     inf = d;
+  });
+
+  await ref.game.once("value", function(data) {
+    var d = data.val();
+    var max = -1;
+    if (d !== null) {
+      for (var i in d.ships) {
+        if (Number(i) > max) {
+          max = Number(i);
+        }
+      }
+    }
+    ref.game.child("ships").child(max + 1).set({
+      x: random(500),
+      y: random(500),
+      rot: random(360)
+    });
+    if (d !== null) {
+      for (var i in d.ships) {
+        ships.push(new Ship(i));
+      }
+    }
+    ships.push(new Ship(max + 1));
   });
 
   var shipPallet = [
     color(0, 0, 0, 0),
-    color(0, 0, 0),
+    color(50, 50, 50),
     color(255, 255, 255),
     color(225, 50, 50),
     color(50, 200, 255)
@@ -64,27 +118,29 @@ function setup() {
     }
   }
   ship = g;
-}
+  imageMode(CENTER);
 
-function Ship(dataRef) {
-  this.dataRef = dataRef;
-  this.draw = function() {
-
+  for (var i = 0; i < 250; i++) {
+    stars.push({
+      x: random(window.innerWidth),
+      y: random(window.innerHeight),
+      offset: random(10000)
+    });
   }
 }
 
-var stars = [];
-for (var i = 0; i < 250; i++) {
-  stars.push({
-    x: random(window.innerWidth),
-    y: random(window.innerHeight)
-  });
-}
 function draw() {
-  background(50);
+  cursor();
+  background(0);
   stroke(255);
   for(var i = 0; i < stars.length; i++) {
+    strokeWeight((sin(frameCount / 100 + stars[i].offset) + 1) * 2);
     point(stars[i].x, stars[i].y);
   }
-  image(ship, 20, 20, 17 * 5, 18 * 5);
+  strokeWeight(1);
+  for (var i = 0; i < ships.length; i++) {
+    if (inf !== null && inf.ships[i] !== undefined) {
+      ships[i].draw();
+    }
+  }
 }
