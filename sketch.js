@@ -188,10 +188,25 @@ function draw() {
   }
   strokeWeight(1);
   // Remove inactive ships
-  for (var i = 0; i < ships.length; i++) {
-    if (inf !== null && inf.ships[i] !== undefined) {
-      if (new Date().getTime() - inf.ships[i].last > 120000) {
-        ref.game.child("ships").child(i).remove();
+  if (inf.ships !== undefined) {
+    for (var i = 0; i < inf.ships.length; i++) {
+      if (inf.ships[i] !== undefined) {
+        if (new Date().getTime() - inf.ships[i].last > 20000) {
+          ref.game.child("ships").child(i).remove();
+          if (userNum === i) {
+            alert("You have been idle for too long and were kicked from the game. Reload to rejoin.");
+          }
+          if (userNum > i) {
+            userNum--;
+          }
+          for (var j = i + 1; j < inf.ships.length; j++) {
+            ref.game.child("ships").child(j - 1).set(inf.ships[j]);
+            if (j === inf.ships.length - 1) {
+              ref.game.child("ships").child(j).remove();
+            }
+          }
+          break;
+        }
       }
     }
   }
