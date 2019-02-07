@@ -10,6 +10,7 @@ var ships = []; // Array of all ships
 var stars = []; // Array of all stars
 var userNum = -1; // This user's dataRef value
 
+var pinf = {}; // Previous game info
 var inf = {}; // Game info
 
 // Key input
@@ -29,7 +30,12 @@ function Ship(dataRef) {
   this.draw = function() {
     // Moves and orientates the image
     push();
+    // Get the distance since the user last turned
     var dist = (new Date().getTime() - inf.ships[this.dataRef].last) / 1000 * 0.5;
+    // Set the distance to 0 if the user jsut turned
+    if (pinf.ships !== undefined && pinf.ships[this.dataRef].last === inf.ships[this.dataRef].last) {
+      dist = 0;
+    }
     translate((inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist) * window.innerWidth, (inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist) * window.innerHeight);
     rotate(inf.ships[this.dataRef].rot);
     // Draws the image
@@ -222,4 +228,5 @@ function draw() {
   if (userNum !== -1 && inf !== null && inf.ships[userNum] !== undefined) {
     ships[userNum].update();
   }
+  pinf = inf;
 }
