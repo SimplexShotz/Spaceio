@@ -73,7 +73,18 @@ function Ship(dataRef) {
   }
 }
 
+var stars = [];
+for (var i = 0; i < 250; i++) {
+  stars.push({
+    x: random(window.innerWidth),
+    y: random(window.innerHeight)
+  });
+}
 function draw() {
   background(50);
+  stroke(255);
+  for(var i = 0; i < stars.length; i++) {
+    point(stars[i].x, stars[i].y);
+  }
   image(ship, 20, 20, 17 * 5, 18 * 5);
 }
