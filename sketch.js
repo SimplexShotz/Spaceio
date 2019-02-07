@@ -23,7 +23,8 @@ function Ship(dataRef) {
   this.dataRef = dataRef.toString();
   this.draw = function() {
     push();
-    translate(inf.ships[this.dataRef].x, inf.ships[this.dataRef].y);
+    var dist = (new Date.getTime - inf.ships[this.dataRef].last) / 1000 * 10;
+    translate(inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist, inf.ships[this.dataRef].y + cos(inf.ships[this.dataRef].rot) * dist);
     rotate(inf.ships[this.dataRef].rot);
     image(ship, 0, 0, 17 * 5, 18 * 5);
     pop();
@@ -70,7 +71,8 @@ async function setup() {
     ref.game.child("ships").child(max + 1).set({
       x: random(500),
       y: random(500),
-      rot: random(360)
+      rot: random(360),
+      last: new Date().getTime()
     });
     if (d !== null) {
       for (var i in d.ships) {
