@@ -202,7 +202,7 @@ function draw() {
     }
   }
   // Update this user's ship
-  if (inf !== null && inf.ships[userNum] !== undefined && userNum !== -1) {
+  if (userNum !== -1 && inf !== null && inf.ships[userNum] !== undefined) {
     ships[userNum].update();
   }
 }
