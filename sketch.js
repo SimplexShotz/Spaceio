@@ -23,8 +23,8 @@ function Ship(dataRef) {
   this.dataRef = dataRef.toString();
   this.draw = function() {
     push();
-    var dist = (new Date().getTime() - inf.ships[this.dataRef].last) / 1000 * 10;
-    translate(inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist, inf.ships[this.dataRef].y + cos(inf.ships[this.dataRef].rot) * dist);
+    var dist = (new Date().getTime() - inf.ships[this.dataRef].last) / 1000 * 100;
+    translate(inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist, inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist);
     rotate(inf.ships[this.dataRef].rot);
     image(ship, 0, 0, 17 * 5, 18 * 5);
     pop();
