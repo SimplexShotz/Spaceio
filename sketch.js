@@ -8,6 +8,7 @@ var database, ref;
 var ship; // ship image
 var ships = []; // array of all ships
 var stars = []; // array of all stars
+var userNum = -1;
 
 var inf = {}; // game info
 
@@ -23,15 +24,25 @@ function Ship(dataRef) {
   this.dataRef = dataRef.toString();
   this.draw = function() {
     push();
-    var dist = (new Date().getTime() - inf.ships[this.dataRef].last) / 1000 * 100;
-    translate(inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist, inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist);
+    var dist = (new Date().getTime() - inf.ships[this.dataRef].last) / 1000 * 0.5;
+    translate((inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist) * window.innerWidth, (inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist) * window.innerHeight);
     rotate(inf.ships[this.dataRef].rot);
     image(ship, 0, 0, 17 * 5, 18 * 5);
     pop();
   }
   this.update = function() {
-    if (kp[RIGHT]) {
-
+    var dist = (new Date().getTime() - inf.ships[this.dataRef].last) / 1000 * 0.5;
+    if (kp[39]) {
+      ref.game.child("ships").child(this.dataRef).child("x").set(inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist);
+      ref.game.child("ships").child(this.dataRef).child("y").set(inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist);
+      ref.game.child("ships").child(this.dataRef).child("rot").set(inf.ships[this.dataRef].rot + 0.1);
+      ref.game.child("ships").child(this.dataRef).child("last").set(new Date().getTime());
+    }
+    if (kp[37]) {
+      ref.game.child("ships").child(this.dataRef).child("x").set(inf.ships[this.dataRef].x + sin(inf.ships[this.dataRef].rot) * dist);
+      ref.game.child("ships").child(this.dataRef).child("y").set(inf.ships[this.dataRef].y - cos(inf.ships[this.dataRef].rot) * dist);
+      ref.game.child("ships").child(this.dataRef).child("rot").set(inf.ships[this.dataRef].rot - 0.1);
+      ref.game.child("ships").child(this.dataRef).child("last").set(new Date().getTime());
     }
   }
 }
@@ -69,8 +80,8 @@ async function setup() {
       }
     }
     ref.game.child("ships").child(max + 1).set({
-      x: random(500),
-      y: random(500),
+      x: random(0.2, 0.8),
+      y: random(0.2, 0.8),
       rot: random(360),
       last: new Date().getTime()
     });
@@ -80,6 +91,7 @@ async function setup() {
       }
     }
     ships.push(new Ship(max + 1));
+    userNum = max + 1;
   });
 
   var shipPallet = [
@@ -144,5 +156,8 @@ function draw() {
     if (inf !== null && inf.ships[i] !== undefined) {
       ships[i].draw();
     }
+  }
+  if (userNum !== -1) {
+    ships[userNum].update();
   }
 }
