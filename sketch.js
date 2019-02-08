@@ -70,7 +70,6 @@ function Ship(dataRef) {
       ref.game.child("ships").child(this.dataRef).child("last").set(new Date().getTime());
     }
     // Turning
-    console.log(floor(new Date().getTime() / ts) + " " + lastHit);
     if (floor(new Date().getTime() / ts) !== lastHit) {
       // Right
       if (kp[39]) {
@@ -112,7 +111,6 @@ async function setup() {
 
   ref.game.on("value", function(data) {
     var d = data.val();
-    console.log("updated");
     // ship handling:
     inf = d;
   });
